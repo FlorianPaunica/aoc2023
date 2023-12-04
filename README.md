@@ -1,0 +1,3 @@
+## Advent of code 2023 in rust
+
+First time doing aoc and using rust, great....
