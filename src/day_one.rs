@@ -1,16 +1,10 @@
 use crate::util;
 
 pub fn day_one() {
-    let test_one_data = util::read_file("one", util::AocPart::Test_One);
-    let one_data = util::read_file("one", util::AocPart::One);
-    let test_one_result = part_one(&test_one_data);
+    let one_data = util::read_file("one");
     let one_result = part_one(&one_data);
-    let test_two_data = util::read_file("one", util::AocPart::Test_Two);
-    let test_two_result = part_two(&test_two_data);
     let two_result = part_two(&one_data);
-    println!("Test one  result: {}", test_one_result);
     println!("Input one result: {}", one_result);
-    println!("Test two result: {}", test_two_result);
     println!("Input two result: {}", two_result);
 }
 fn part_two(data: &Vec<String>) -> u32 {
@@ -46,9 +40,7 @@ fn part_one(data: &Vec<String>) -> u32 {
 }
 
 fn find_digit(data: &String) -> Option<u32> {
-    data.chars().find_map(|ch| {
-       ch.to_digit(10)
-    })
+    data.chars().find_map(|ch| ch.to_digit(10))
 }
 
 fn replace_with_number(line: &String, reverse: bool) -> String {
@@ -86,5 +78,37 @@ fn replace_with_number(line: &String, reverse: bool) -> String {
     match reverse {
         true => new_line.chars().rev().collect(),
         false => new_line,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{part_one, part_two};
+
+    #[test]
+    fn part_one_test() {
+        let input: Vec<String> = vec!["1abc2", "pqr3stu8vwx", "a1b2c3d4e5f", "treb7uchet"]
+            .iter()
+            .map(|x| String::from(*x))
+            .collect();
+        let result = part_one(&input);
+        assert_eq!(result, 142);
+    }
+    #[test]
+    fn part_two_test() {
+        let input: Vec<String> = vec![
+            "two1nine",
+            "eightwothree",
+            "abcone2threexyz",
+            "xtwone3four",
+            "4nineeightseven2",
+            "zoneight234",
+            "7pqrstsixteen",
+        ]
+        .iter()
+        .map(|x| String::from(*x))
+        .collect();
+        let result = part_two(&input);
+        assert_eq!(result, 281);
     }
 }

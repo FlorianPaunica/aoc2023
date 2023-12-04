@@ -1,15 +1,9 @@
 use crate::util;
 pub fn day_two() {
-    let test_one_data = util::read_file("two", util::AocPart::Test_One);
-    let one_data = util::read_file("two", util::AocPart::One);
-    let test_one_result = part_one(&test_one_data);
+    let one_data = util::read_file("two");
     let one_result = part_one(&one_data);
-    let test_two_data = util::read_file("two", util::AocPart::Test_One);
-    let test_two_result = part_two(&test_two_data);
     let two_result = part_two(&one_data);
-    println!("Test one  result: {}", test_one_result);
     println!("Input one result: {}", one_result);
-    println!("Test two result: {}", test_two_result);
     println!("Input two result: {}", two_result);
 }
 #[derive(Default, Debug)]
@@ -22,7 +16,7 @@ struct GameSet {
 #[derive(Debug)]
 struct Game {
     number: usize,
-    sets: Vec<GameSet>
+    sets: Vec<GameSet>,
 }
 
 fn part_one(data: &Vec<String>) -> usize {
@@ -41,7 +35,9 @@ fn part_one(data: &Vec<String>) -> usize {
                 break;
             }
         }
-        if sets_valid { result += game.number };
+        if sets_valid {
+            result += game.number
+        };
     }
     result
 }
@@ -70,14 +66,19 @@ fn part_two(data: &Vec<String>) -> usize {
 }
 
 fn input_to_games(data: &Vec<String>) -> Vec<Game> {
-    data.iter().map(|line| {
-        let (game_number, rest) = parse_game_number(&line);
-        let sets = parse_sets(rest);
-        Game {number: game_number, sets}
-    }).collect()
+    data.iter()
+        .map(|line| {
+            let (game_number, rest) = parse_game_number(&line);
+            let sets = parse_sets(rest);
+            Game {
+                number: game_number,
+                sets,
+            }
+        })
+        .collect()
 }
 
-fn parse_game_number (line: &String) -> (usize, &str) {
+fn parse_game_number(line: &String) -> (usize, &str) {
     let idx = 5;
     let end = line.find(":").unwrap();
     let game_no: usize = line[idx..end].parse().unwrap();
@@ -85,7 +86,7 @@ fn parse_game_number (line: &String) -> (usize, &str) {
     (game_no, rest.1)
 }
 
-fn parse_sets (line: &str) -> Vec<GameSet> {
+fn parse_sets(line: &str) -> Vec<GameSet> {
     let set_str: Vec<&str> = line.trim().split(";").map(|x| x.trim()).collect();
     let mut sets: Vec<GameSet> = vec![];
     for ss in set_str {
@@ -108,10 +109,47 @@ fn parse_color_sring(from: &str) -> GameSet {
                 "blue" => blue = v,
                 "green" => green = v,
                 "red" => red = v,
-                _ => ()
+                _ => (),
             }
         }
     }
 
-    GameSet {red, green, blue}
+    GameSet { red, green, blue }
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::{part_one, part_two};
+
+    #[test]
+    fn part_one_test() {
+        let input: Vec<String> = vec![
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
+            "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+            "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
+            "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
+            "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
+        ]
+        .iter()
+        .map(|x| String::from(*x))
+        .collect();
+        let result = part_one(&input);
+        assert_eq!(result, 8);
+    }
+    #[test]
+    fn part_two_test() {
+        let input: Vec<String> = vec![
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green",
+            "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue",
+            "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red",
+            "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red",
+            "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green",
+        ]
+        .iter()
+        .map(|x| String::from(*x))
+        .collect();
+        let result = part_two(&input);
+        assert_eq!(result, 2286);
+    }
 }
