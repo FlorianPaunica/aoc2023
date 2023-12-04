@@ -46,12 +46,9 @@ fn part_one(data: &Vec<String>) -> u32 {
 }
 
 fn find_digit(data: &String) -> Option<u32> {
-    for ch in data.chars() {
-        if ch.is_numeric() {
-            return ch.to_digit(10);
-        }
-    }
-    None
+    data.chars().find_map(|ch| {
+       ch.to_digit(10)
+    })
 }
 
 fn replace_with_number(line: &String, reverse: bool) -> String {
