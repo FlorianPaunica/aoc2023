@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use crate::util;
 
 pub fn main() {
@@ -12,7 +10,6 @@ pub fn main() {
 
 #[derive(Debug, Default)]
 struct Card {
-    number: usize,
     winners: Vec<usize>,
     have: Vec<usize>,
 }
@@ -37,17 +34,12 @@ fn part_two(data: &Vec<String>) -> usize {
     let mut card_count = vec![1; cards.len()];
 
     for (idx, c) in cards.iter().enumerate() {
-        println!("--------------------------");
         let winners: Vec<&usize> = c.winners.iter().filter(|w| c.have.contains(*w)).collect();
         let num_of_cards = card_count[idx];
-        println!("Playing {num_of_cards} cards of number {}", idx + 1);
-        println!("Winners: {:?}", winners);
-        println!("Count: {:?}", winners.len());
         for i in idx + 1..=idx + winners.len() {
             card_count[i] += num_of_cards;
         }
     }
-    println!("{:?}", card_count);
     for v in card_count {
         sum += v;
     }
@@ -57,9 +49,7 @@ fn part_two(data: &Vec<String>) -> usize {
 fn input_to_cards(data: &Vec<String>) -> Vec<Card> {
     data.iter()
         .map(|line| {
-            let num_start = 5;
             let end = line.find(":").unwrap();
-            let card_no: usize = line[num_start..end].trim().parse().unwrap();
             let rest = line.split_at(end + 1).1;
             let (winners, have) = rest.trim().split_once('|').unwrap();
             let winners = winners
@@ -88,7 +78,6 @@ fn input_to_cards(data: &Vec<String>) -> Vec<Card> {
                 .collect::<Vec<usize>>();
 
             Card {
-                number: card_no,
                 winners,
                 have,
             }
