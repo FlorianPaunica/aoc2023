@@ -1,12 +1,21 @@
+use std::time::Instant;
+
 use crate::util;
 
-pub fn day_one() {
-    let one_data = util::read_file("one");
-    let one_result = part_one(&one_data);
-    let two_result = part_two(&one_data);
-    println!("Input one result: {}", one_result);
-    println!("Input two result: {}", two_result);
+pub fn main() {
+    let data = util::read_file("one");
+    let start = Instant::now();
+    let one_result = part_one(&data);
+    let duration = start.elapsed();
+    println!("input one result: {}", one_result);
+    println!("execution time: {:?}", duration);
+    let start = Instant::now();
+    let two_result = part_two(&data);
+    let duration = start.elapsed();
+    println!("input two result: {}", two_result);
+    println!("execution time: {:?}", duration);
 }
+
 fn part_two(data: &Vec<String>) -> u32 {
     let mut result = 0;
     for line in data.iter() {
