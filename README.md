@@ -33,3 +33,7 @@ Execution time: 6.828106ms
 Execution time: 6.408152ms  
 
 Today I learned to read the problem twice. At least.
+
+-----Day Eight-----  
+Execution time: 5.670792ms  
+Execution time: 25.829594ms  
