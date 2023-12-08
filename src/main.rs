@@ -6,6 +6,7 @@ mod day_four;
 mod day_five;
 mod day_six;
 mod day_seven;
+mod day_eight;
 
 fn main() {
     println!("-----Day One-----");
@@ -22,4 +23,6 @@ fn main() {
     day_six::main();
     println!("-----Day Seven-----");
     day_seven::main();
+    println!("-----Day Eight-----");
+    day_eight::main();
 }
